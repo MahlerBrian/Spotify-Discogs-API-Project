@@ -1,0 +1,22 @@
+const SPOTIFY_ALBUM_URL = "https://api.spotify.com/v1/artists/{id}/albums"; 
+
+// function getDataFromSpotifyApi (searchTerm, callback) {
+//  const settings = {
+//    url: SPOTIFY_ALBUM_URL,
+//    data:
+//  }
+//}
+
+// spotify album endpoint: 
+// GET https://api.spotify.com/v1/albums/{id}
+
+// spotify recently played tracks endpoint:
+// GET https://api.spotify.com/v1/me/player/recently-played
+
+// spotify login authorization:
+// 
+
+//discogs master release endpoint:
+// /masters/{master_id}/versions{?page,per_page}  and include format: vinyl
+
+

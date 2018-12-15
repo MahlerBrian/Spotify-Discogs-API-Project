@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="This is an app that checks if your most frequently played albums on Spotify are for sale as vinyl LPs">
+    <meta name="keywords" content="Thinkful,Spotify,Discogs,Search,API">
+    <meta name="author" content="Brian Albert">
+    <title>Will it Spin?</title>
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+
+  <body>
+  <!--This is the initial login screen-->
+    <h1>Will it Spin?</h1>
+    <h3>Welcome! This app lets you check if your most frequently played albums on Spotify are for sale as vinyl LP's.</h3>
+    <h3>First, please log in to your Spotify account</h3>
+    <div class="container">
+      <label for="username"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="username" required>
+      <label for="password"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="password" required>
+      <button type="submit">Login</button>
+      <p>Don't have a Spotify account? Register <a href="https://www.spotify.com/signup/">here</a>.</p>
+    </div>
+
+  <!--This is the dashboard that displays most frequently played albums-->
+    <h1>Your most frequently played albums:</h1>
+    <div id="album-list">
+      <!--Spotify master release objects displayed here-->
+      <!--Include thumbnail img of album cover with .click event listener-->
+      <p>Click on the album cover to see if it will spin!</p>
+    </div>
+
+  <!--This is the Discogs search result-->
+    
+    
+    <script src="index.js"></script>
+  </body>
+</html>
+
