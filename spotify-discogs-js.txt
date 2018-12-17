@@ -54,20 +54,30 @@ function getMostRecentlyPlayed() {
     return res.json();
   }).then(response => {
     console.log("response is", response);
+    displayMostRecentlyPlayed(response);
   }).catch(error => {
     console.log("could not get response", error);
   });
 }
 
-function renderMostPlayed() {
+function renderMostRecentlyPlayed(result) {
+  console.log(result);
   return `
     <div>
-        <h1>Your most recently played tracks:</h1>
           <div id="track-list">
-          <p>Click on the artist to see if their albums spin!</p>
+          <img class="js-thumbnail" src="${result.track.album.images[1].url}" alt="thumbnail of album cover">
+          <p>Track: <span class="js-track">${result.track.name}</span></p>
+          <p>Artist Name: <span class="js-artist-name">${result.track.artists[0].name}</span></p>
+          <p>Album: <span class="js-album-name">${result.track.album.name}</span></p>
           </div>
     </div>
   `
+}
+
+function displayMostRecentlyPlayed(data) {
+  console.log(data);
+  const results = data.items.map((item, index) => renderMostRecentlyPlayed(item));
+  $('.js-spotify-results').html(results);
 }
 
 
