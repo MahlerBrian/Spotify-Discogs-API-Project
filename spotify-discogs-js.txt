@@ -1,22 +1,94 @@
-const SPOTIFY_ALBUM_URL = "https://api.spotify.com/v1/artists/{id}/albums"; 
+const SPOTIFY_AUTH_URL = "https://accounts.spotify.com/authorize?client_id=c65ee65876f34e368b95a9b12edd04a2&response_type=token&redirect_uri=https://SpotifyDiscogsAPIProject--brian-albert.repl.co&scope=user-read-recently-played&state=454";
 
-// function getDataFromSpotifyApi (searchTerm, callback) {
-//  const settings = {
-//    url: SPOTIFY_ALBUM_URL,
-//    data:
-//  }
-//}
+const SPOTIFY_MOST_RECENT = "https://api.spotify.com/v1/me/player/recently-played";
 
-// spotify album endpoint: 
-// GET https://api.spotify.com/v1/albums/{id}
+
+function spotifyAuthLogin() {
+  location.href = SPOTIFY_AUTH_URL; 
+  // not an ajax request; just redirecting user.
+} 
+
+function getUserAccessToken() {
+
+    // Get the entire url, that includes the undesired "#", the host (domain) and the parameters (where the useful information lies (the access token)
+    let originalUrl = location.href;
+
+    // replace the # with an question mark
+    originalUrl = originalUrl.replace("#", "?");
+
+    // split the url in two, the part before the question mark (the domain) and after (the parameters)
+    let urlParts = originalUrl.split("?");
+
+    // separate the parameters
+    let rawQueryParameters = urlParts[1];
+   
+    // instantiate the parameters object with the raw parameters
+    const params = new URLSearchParams(rawQueryParameters);
+
+    // Finally! Extract the desired query parameter: "access_token"
+    const token = params.get("access_token");
+
+    if (token) {
+        console.log('token was found', token);
+        localStorage.setItem('token', token);
+        getMostRecentlyPlayed();
+    }
+    else {
+        console.log('token was not found')
+    } 
+
+    // When the code is executed after the redirect from the Spotify API, the constant "token" will contain the token
+    // Otherwise the constant token will be either undefined or null!
+}
+
+function getMostRecentlyPlayed() {
+  const token = localStorage.getItem("token");
+
+  return fetch(SPOTIFY_MOST_RECENT, {
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    }
+  }).then(res => {
+    return res.json();
+  }).then(response => {
+    console.log("response is", response);
+  }).catch(error => {
+    console.log("could not get response", error);
+  });
+}
+
+function renderMostPlayed() {
+  return `
+    <div>
+        <h1>Your most recently played tracks:</h1>
+          <div id="track-list">
+          <p>Click on the artist to see if their albums spin!</p>
+          </div>
+    </div>
+  `
+}
+
+
+function registerEvents() {
+  $("#login-button").click(spotifyAuthLogin);
+  getUserAccessToken();
+}
+
+
+$(registerEvents);
+
+
+
+
+
 
 // spotify recently played tracks endpoint:
 // GET https://api.spotify.com/v1/me/player/recently-played
 
-// spotify login authorization:
-// 
 
 //discogs master release endpoint:
 // /masters/{master_id}/versions{?page,per_page}  and include format: vinyl
 
-
+// https://api.discogs.com//artists/{artist_id}/releases{?sort,sort_order}
