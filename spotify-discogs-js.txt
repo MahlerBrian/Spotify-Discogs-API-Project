@@ -2,12 +2,28 @@ const SPOTIFY_AUTH_URL = "https://accounts.spotify.com/authorize?client_id=c65ee
 
 const SPOTIFY_MOST_RECENT = "https://api.spotify.com/v1/me/player/recently-played";
 
+const DISCOGS_VINYL_FORMAT = "https://api.discogs.com/database/search";
 
+//const DISCOGS_  = "https://api.discogs.com/master/{master_id}"
+
+/* Not sure if I will actually need this info since 
+ the user is searching Discogs for an album and doesn't need
+ to be logged in to a Discogs account:
+Consumer Key	ScTqVUrBwlFeYEBOJJyI
+Consumer Secret	WkuoOwfJrRtlBvGSivwobXtMXwvttKgh
+Request Token URL	https://api.discogs.com/oauth/request_token
+Authorize URL	https://www.discogs.com/oauth/authorize
+Access Token URL	https://api.discogs.com/oauth/access_token 
+*/
+
+
+//Use OAuth in order to get user's recent play history.
 function spotifyAuthLogin() {
   location.href = SPOTIFY_AUTH_URL; 
   // not an ajax request; just redirecting user.
 } 
 
+//Parse user's access token from the url
 function getUserAccessToken() {
 
     // Get the entire url, that includes the undesired "#", the host (domain) and the parameters (where the useful information lies (the access token)
@@ -41,6 +57,8 @@ function getUserAccessToken() {
     // Otherwise the constant token will be either undefined or null!
 }
 
+/*Saves user's access token to local storage and makes call for
+the user's recent play history.*/ 
 function getMostRecentlyPlayed() {
   const token = localStorage.getItem("token");
 
@@ -60,8 +78,12 @@ function getMostRecentlyPlayed() {
   });
 }
 
+//Formats Spotify data in HTML
 function renderMostRecentlyPlayed(result) {
-  console.log(result);
+//  console.log(result);
+  const searchTerm = `${result.track.artists[0].name} ${result.track.album.name}`;
+  searchDiscogsDatabase(searchTerm, result.id, displayDiscogsSearchResult);
+
   return `
     <div>
           <div id="track-list">
@@ -69,11 +91,17 @@ function renderMostRecentlyPlayed(result) {
           <p>Track: <span class="js-track">${result.track.name}</span></p>
           <p>Artist Name: <span class="js-artist-name">${result.track.artists[0].name}</span></p>
           <p>Album: <span class="js-album-name">${result.track.album.name}</span></p>
+          <p id="discogs-info-${result.id}"></p>
           </div>
     </div>
   `
 }
+// insert on line 93: <p id='discogs-info-1'></p>
+// $("#discogs-info-1").text(information from the discogs api);
+// insert this?: <p id='discogs-info-1'>${results[0].uri}</p>
 
+
+//Renders Spotify data in the DOM
 function displayMostRecentlyPlayed(data) {
   console.log(data);
   const results = data.items.map((item, index) => renderMostRecentlyPlayed(item));
@@ -81,6 +109,46 @@ function displayMostRecentlyPlayed(data) {
 }
 
 
+
+//Searches Discogs database
+function searchDiscogsDatabase(searchTerm, id, callback) {
+  const KEY = 'ScTqVUrBwlFeYEBOJJyI';
+  const SECRET = 'WkuoOwfJrRtlBvGSivwobXtMXwvttKgh';
+  const settings = {
+    url: DISCOGS_VINYL_FORMAT,
+    data: {
+      title: `${searchTerm}`,
+      key: KEY,
+      secret: SECRET,
+      type: 'master',
+      format: 'vinyl'
+    },
+    dataType: 'json',
+    type: 'GET',
+    success: function(data) {
+      displayDiscogsSearchResult(data, id);
+    }
+  };
+  $.ajax(settings);
+}
+
+//Renders Discogs data in the DOM
+function displayDiscogsSearchResult(data, id) {
+  console.log('Here is the vinyl data', data);
+  let link = 'Sorry, we couldn\'t find that album on vinyl!';
+  if (data.results.length) {
+    console.log('test');
+    let result = data.results[0];
+    if (result.uri) {
+    link = `<a href="www.discogs.com${result.uri}">Buy it online here</a>`;
+    }
+  }
+  
+  $(`#discogs-info-${id}`).text(link);
+}
+
+
+//Function to make login button get the whole thing started:
 function registerEvents() {
   $("#login-button").click(spotifyAuthLogin);
   getUserAccessToken();
@@ -92,13 +160,5 @@ $(registerEvents);
 
 
 
-
-
-// spotify recently played tracks endpoint:
-// GET https://api.spotify.com/v1/me/player/recently-played
-
-
 //discogs master release endpoint:
 // /masters/{master_id}/versions{?page,per_page}  and include format: vinyl
-
-// https://api.discogs.com//artists/{artist_id}/releases{?sort,sort_order}
