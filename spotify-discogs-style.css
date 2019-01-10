@@ -6,3 +6,7 @@ box-sizing: border-box;
     padding-right: 50px;
     padding-bottom: 50px;
 }
+
+.js-thumbnail {
+  border-radius: 50%;
+}

@@ -80,9 +80,9 @@ function getMostRecentlyPlayed() {
 
 //Formats Spotify data in HTML
 function renderMostRecentlyPlayed(result) {
-//  console.log(result);
+  console.log(result);
   const searchTerm = `${result.track.artists[0].name} ${result.track.album.name}`;
-  searchDiscogsDatabase(searchTerm, result.id, displayDiscogsSearchResult);
+  searchDiscogsDatabase(result.track.album.name, result.track.artists[0].name, result.track.id, displayDiscogsSearchResult);
 
   return `
     <div>
@@ -91,7 +91,7 @@ function renderMostRecentlyPlayed(result) {
           <p>Track: <span class="js-track">${result.track.name}</span></p>
           <p>Artist Name: <span class="js-artist-name">${result.track.artists[0].name}</span></p>
           <p>Album: <span class="js-album-name">${result.track.album.name}</span></p>
-          <p id="discogs-info-${result.id}"></p>
+          <p id="discogs-info-${result.track.id}"></p>
           </div>
     </div>
   `
@@ -111,13 +111,14 @@ function displayMostRecentlyPlayed(data) {
 
 
 //Searches Discogs database
-function searchDiscogsDatabase(searchTerm, id, callback) {
+function searchDiscogsDatabase(searchTerm, artist, id, callback) {
   const KEY = 'ScTqVUrBwlFeYEBOJJyI';
   const SECRET = 'WkuoOwfJrRtlBvGSivwobXtMXwvttKgh';
   const settings = {
     url: DISCOGS_VINYL_FORMAT,
     data: {
-      title: `${searchTerm}`,
+      release_title: searchTerm,
+      artist: artist,
       key: KEY,
       secret: SECRET,
       type: 'master',
@@ -134,17 +135,17 @@ function searchDiscogsDatabase(searchTerm, id, callback) {
 
 //Renders Discogs data in the DOM
 function displayDiscogsSearchResult(data, id) {
-  console.log('Here is the vinyl data', data);
+  console.log('Here is the vinyl data', data, id);
   let link = 'Sorry, we couldn\'t find that album on vinyl!';
   if (data.results.length) {
     console.log('test');
     let result = data.results[0];
     if (result.uri) {
-    link = `<a href="www.discogs.com${result.uri}">Buy it online here</a>`;
+    link = `<a href="https://www.discogs.com${result.uri}" target="_blank">Buy it online here</a>`;
     }
   }
   
-  $(`#discogs-info-${id}`).text(link);
+  $(`#discogs-info-${id}`).html(link);
 }
 
 
