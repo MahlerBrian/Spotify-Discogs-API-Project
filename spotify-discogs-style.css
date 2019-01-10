@@ -5,8 +5,13 @@ box-sizing: border-box;
     padding-left: 50px;
     padding-right: 50px;
     padding-bottom: 50px;
+background: #FCFFCA;
+color: #6069FF;
+font-family: 'Montserrat', Arial; 
+
 }
 
 .js-thumbnail {
   border-radius: 50%;
 }
+
