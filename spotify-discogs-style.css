@@ -1,17 +1,92 @@
-body {
-box-sizing: border-box;
-    margin: 0 auto;
-    text-align: center;
-    padding-left: 50px;
-    padding-right: 50px;
-    padding-bottom: 50px;
-background: #FCFFCA;
-color: #6069FF;
-font-family: 'Montserrat', Arial; 
-
+*{
+  box-sizing: border-box;
 }
 
-.js-thumbnail {
+body{
+  margin:0;
+  font-family: 'arial';
+  font-size:1rem;
+  line-height:1.5;
+  color: #333;
+  overflow-x: hidden;
+}
+
+.v-header{
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  color:#fff;
+}
+
+.container{
+  max-width: 960px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin: auto;
+  text-align: center;
+}
+
+.fullscreen-video-wrap{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.fullscreen-video-wrap video{
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.header-overlay{
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: beige;
+  z-index:1;
+  opacity: 0.45;
+}
+
+.header-content{
+  z-index: 2;
+}
+
+.header-content h1{
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 50px;
+  margin-bottom: 0;
+}
+
+#login-button{
+  background: white;
+  color: olive;
+  font-size: 16px;
+  padding: 10px 24px;
+  border: 2px solid olive;
   border-radius: 50%;
 }
 
+.js-spotify-results{
+  position: absolute;
+  border: solid 1px white;
+  height: 300px;
+  width: 500px;
+  overflow: auto;
+  overflow-y: scroll;
+  text-align: center;
+}
+
+.js-spotify-results img{
+  border-radius: 50%;
+}
+
+@media(max-width: 960px){
+  .container{
+    padding-right: 3rem;
+    padding-left: 3rem;
+  }
+}

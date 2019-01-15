@@ -4,17 +4,7 @@ const SPOTIFY_MOST_RECENT = "https://api.spotify.com/v1/me/player/recently-playe
 
 const DISCOGS_VINYL_FORMAT = "https://api.discogs.com/database/search";
 
-//const DISCOGS_  = "https://api.discogs.com/master/{master_id}"
 
-/* Not sure if I will actually need this info since 
- the user is searching Discogs for an album and doesn't need
- to be logged in to a Discogs account:
-Consumer Key	ScTqVUrBwlFeYEBOJJyI
-Consumer Secret	WkuoOwfJrRtlBvGSivwobXtMXwvttKgh
-Request Token URL	https://api.discogs.com/oauth/request_token
-Authorize URL	https://www.discogs.com/oauth/authorize
-Access Token URL	https://api.discogs.com/oauth/access_token 
-*/
 
 
 //Use OAuth in order to get user's recent play history.
@@ -50,7 +40,11 @@ function getUserAccessToken() {
         getMostRecentlyPlayed();
     }
     else {
-        console.log('token was not found')
+        console.log('token was not found');
+        const token = localStorage.getItem("token");
+        if (token) {
+          getMostRecentlyPlayed();
+        }
     } 
 
     // When the code is executed after the redirect from the Spotify API, the constant "token" will contain the token
@@ -88,9 +82,9 @@ function renderMostRecentlyPlayed(result) {
     <div>
           <div id="track-list">
           <img class="js-thumbnail" src="${result.track.album.images[1].url}" alt="thumbnail of album cover">
-          <p>Track: <span class="js-track">${result.track.name}</span></p>
-          <p>Artist Name: <span class="js-artist-name">${result.track.artists[0].name}</span></p>
-          <p>Album: <span class="js-album-name">${result.track.album.name}</span></p>
+          <p><b>Track:</b> <span class="js-track">${result.track.name}</span></p>
+          <p><b>Artist Name:</b> <span class="js-artist-name">${result.track.artists[0].name}</span></p>
+          <p><b>Album:</b> <span class="js-album-name">${result.track.album.name}</span></p>
           <p id="discogs-info-${result.track.id}"></p>
           </div>
     </div>
@@ -153,6 +147,9 @@ function displayDiscogsSearchResult(data, id) {
 function registerEvents() {
   $("#login-button").click(spotifyAuthLogin);
   getUserAccessToken();
+  $("#login-button").on('click',() => {
+    $('.header-content').hide();
+  })
 }
 
 
