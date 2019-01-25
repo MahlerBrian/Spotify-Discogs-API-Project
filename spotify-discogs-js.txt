@@ -66,7 +66,14 @@ function getMostRecentlyPlayed() {
     return res.json();
   }).then(response => {
     console.log("response is", response);
-    displayMostRecentlyPlayed(response);
+    if (response.error){
+      
+    }
+    else {
+      $('.js-spotify-results').show();
+      displayMostRecentlyPlayed(response);
+    }
+    
   }).catch(error => {
     console.log("could not get response", error);
   });
@@ -75,6 +82,8 @@ function getMostRecentlyPlayed() {
 //Formats Spotify data in HTML
 function renderMostRecentlyPlayed(result) {
   console.log(result);
+  $('.header-content').hide();
+  $('.results-header h1').show();
   const searchTerm = `${result.track.artists[0].name} ${result.track.album.name}`;
   searchDiscogsDatabase(result.track.album.name, result.track.artists[0].name, result.track.id, displayDiscogsSearchResult);
 
@@ -90,9 +99,6 @@ function renderMostRecentlyPlayed(result) {
     </div>
   `
 }
-// insert on line 93: <p id='discogs-info-1'></p>
-// $("#discogs-info-1").text(information from the discogs api);
-// insert this?: <p id='discogs-info-1'>${results[0].uri}</p>
 
 
 //Renders Spotify data in the DOM
@@ -101,7 +107,6 @@ function displayMostRecentlyPlayed(data) {
   const results = data.items.map((item, index) => renderMostRecentlyPlayed(item));
   $('.js-spotify-results').html(results);
 }
-
 
 
 //Searches Discogs database
@@ -138,7 +143,6 @@ function displayDiscogsSearchResult(data, id) {
     link = `<a href="https://www.discogs.com${result.uri}" target="_blank">Buy it online here</a>`;
     }
   }
-  
   $(`#discogs-info-${id}`).html(link);
 }
 
@@ -154,9 +158,3 @@ function registerEvents() {
 
 
 $(registerEvents);
-
-
-
-
-//discogs master release endpoint:
-// /masters/{master_id}/versions{?page,per_page}  and include format: vinyl
