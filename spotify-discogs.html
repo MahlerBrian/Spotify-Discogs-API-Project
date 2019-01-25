@@ -13,16 +13,20 @@
 
 
   <body>
-   
-    <header class="v-header container">
-      <div class="fullscreen-video-wrap">
-        <video autoplay loop muted>
-          <source src="5456042-preview.mp4" type="video/mp4">
-        </video>
-      </div>
-      
+    <div class="fullscreen-video-wrap">
+      <video autoplay loop muted>
+        <source src="5456042-preview.mp4" type="video/mp4">
+      </video>
       <div class="header-overlay"></div>
-      <div class="header-content" aria-live="polite">
+    </div>
+
+    <div class="mobile-screen-background">
+    </div>
+
+    <main class="v-header container">
+      
+      
+      <header class="header-content" aria-live="polite">
         <h1>Will it Spin?</h1>
         <h3>Welcome! This app displays your  most recently played tracks on Spotify, and lets you check if these artists' albums are for sale as vinyl LP's.</h3>
         <h3>First, please log in to your Spotify account.</h3>
@@ -32,24 +36,22 @@
           <button id="login-button" type="submit">Login with Spotify</button>
           <p>Don't have a Spotify account? Register <a href="https://www.spotify.com/signup/">here</a>.</p>
         </div>
+      </header>  
 
-        <div role="main" class="js-spotify-results" aria-live="assertive">
-        </div>
-      </div>  
-
-      
-
-    </header>
+      <header class="results-header" aria-live="polite">
+        <h1>Here are your results:</h1>
+      </header>
+      <article class="js-spotify-results" aria-live="assertive"></article>
 
       
 
+    </main>
 
-
-  <!--This is the Discogs search result-->
     
   
   <script type="text/javascript" src="index.js"></script>
   </body>
-</html>
+</html> 
+
 
 
