@@ -6,6 +6,8 @@ Most people, even vinyl collectors, listen to music on streaming services. It's 
 
 This app allows Spotify users to pull up a list of their 20 most recently played tracks, and see whether or not the albums are for sale online in a vinyl lp format. 
 
+Live Demo: https://spotifydiscogsapiproject--brian-albert.repl.co/
+
 Experience:
 The user logs in with their Spotify account to retrieve their recent play history.
 The user's 20 most recently-played tracks are displayed along with the artist and album information, 
