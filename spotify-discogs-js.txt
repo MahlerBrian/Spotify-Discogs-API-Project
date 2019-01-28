@@ -6,14 +6,26 @@ const DISCOGS_VINYL_FORMAT = "https://api.discogs.com/database/search";
 
 
 
+//Function to make login button get the whole thing started:
+function registerEvents() {
+  $("#login-button").click(spotifyAuthLogin);
+  getUserAccessToken();
+  $("#login-button").on('click',() => {
+    $('.header-content').hide();
+  })
+}
 
-//Use OAuth in order to get user's recent play history.
+$(registerEvents);
+
+
+//Redirects user to Spotify login page
 function spotifyAuthLogin() {
   location.href = SPOTIFY_AUTH_URL; 
-  // not an ajax request; just redirecting user.
 } 
 
-//Parse user's access token from the url
+
+//Parse user's access token from the url after being redirected 
+//back from Spotify login page
 function getUserAccessToken() {
 
     // Get the entire url, that includes the undesired "#", the host (domain) and the parameters (where the useful information lies (the access token)
@@ -31,26 +43,23 @@ function getUserAccessToken() {
     // instantiate the parameters object with the raw parameters
     const params = new URLSearchParams(rawQueryParameters);
 
-    // Finally! Extract the desired query parameter: "access_token"
+    // Extract the desired query parameter: "access_token"
     const token = params.get("access_token");
 
     if (token) {
-        console.log('token was found', token);
         localStorage.setItem('token', token);
         getMostRecentlyPlayed();
     }
     else {
-        console.log('token was not found');
         const token = localStorage.getItem("token");
         if (token) {
           getMostRecentlyPlayed();
         }
     } 
-
-    // When the code is executed after the redirect from the Spotify API, the constant "token" will contain the token
-    // Otherwise the constant token will be either undefined or null!
 }
 
+/* When the code is executed after the redirect from the Spotify API, the constant "token" will contain the token
+Otherwise the constant token will be either undefined or null!*/
 /*Saves user's access token to local storage and makes call for
 the user's recent play history.*/ 
 function getMostRecentlyPlayed() {
@@ -66,8 +75,8 @@ function getMostRecentlyPlayed() {
     return res.json();
   }).then(response => {
     console.log("response is", response);
-    if (response.error){
-      
+    if (response.error){   
+
     }
     else {
       $('.js-spotify-results').show();
@@ -103,7 +112,6 @@ function renderMostRecentlyPlayed(result) {
 
 //Renders Spotify data in the DOM
 function displayMostRecentlyPlayed(data) {
-  console.log(data);
   const results = data.items.map((item, index) => renderMostRecentlyPlayed(item));
   $('.js-spotify-results').html(results);
 }
@@ -134,10 +142,8 @@ function searchDiscogsDatabase(searchTerm, artist, id, callback) {
 
 //Renders Discogs data in the DOM
 function displayDiscogsSearchResult(data, id) {
-  console.log('Here is the vinyl data', data, id);
   let link = 'Sorry, we couldn\'t find that album on vinyl!';
   if (data.results.length) {
-    console.log('test');
     let result = data.results[0];
     if (result.uri) {
     link = `<a href="https://www.discogs.com${result.uri}" target="_blank">Buy it online here</a>`;
@@ -145,16 +151,3 @@ function displayDiscogsSearchResult(data, id) {
   }
   $(`#discogs-info-${id}`).html(link);
 }
-
-
-//Function to make login button get the whole thing started:
-function registerEvents() {
-  $("#login-button").click(spotifyAuthLogin);
-  getUserAccessToken();
-  $("#login-button").on('click',() => {
-    $('.header-content').hide();
-  })
-}
-
-
-$(registerEvents);
