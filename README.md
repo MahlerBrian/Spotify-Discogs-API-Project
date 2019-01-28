@@ -13,4 +13,3 @@ The userflow is very simple, with only two screens. On the homescreen, the user 
 
 Technology:
 This app is built with HTML, CSS, and JavaScript, and uses jQuery methods. 
-(add more on ajax request?)
