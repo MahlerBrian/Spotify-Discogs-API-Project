@@ -14,7 +14,7 @@ The userflow is very simple, with only two screens. On the homescreen, the user 
 
 If you don't have a Spotify account and don't want to register, you can sign in using this demo account:
 
-Email: will.it.spin.project@gmail.com
+Username: i1593j6y9so01985pb51hfu6n
 
 Password: knockknockknock
 
