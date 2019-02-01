@@ -43,6 +43,7 @@ body{
   font-size: 50px;
   margin-bottom: 0;
   display: none;
+  position: relative;
 }
 
 #login-button{
@@ -52,6 +53,8 @@ body{
   padding: 10px 24px;
   border: 2px solid olive;
   border-radius: 50%;
+  height: 130px;
+  width: 130px;
 }
 
 #login-button:hover{

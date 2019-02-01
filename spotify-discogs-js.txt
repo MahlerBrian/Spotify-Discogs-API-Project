@@ -57,9 +57,9 @@ function getUserAccessToken() {
         }
     } 
 }
-
 /* When the code is executed after the redirect from the Spotify API, the constant "token" will contain the token
 Otherwise the constant token will be either undefined or null!*/
+
 /*Saves user's access token to local storage and makes call for
 the user's recent play history.*/ 
 function getMostRecentlyPlayed() {
@@ -88,13 +88,15 @@ function getMostRecentlyPlayed() {
   });
 }
 
-//Formats Spotify data in HTML
-function renderMostRecentlyPlayed(result) {
-  console.log(result);
+function toggleElements() {
   $('.header-content').hide();
   $('.results-header h1').show();
-  const searchTerm = `${result.track.artists[0].name} ${result.track.album.name}`;
+}
+
+//Formats Spotify data in HTML
+function renderMostRecentlyPlayed(result) {
   searchDiscogsDatabase(result.track.album.name, result.track.artists[0].name, result.track.id, displayDiscogsSearchResult);
+  toggleElements();
 
   return `
     <div>

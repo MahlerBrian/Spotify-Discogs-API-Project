@@ -13,29 +13,27 @@
 
 
   <body>
-    <div class="fullscreen-video-wrap">
-      <video autoplay loop muted>
-        <source src="5456042-preview.mp4" type="video/mp4">
-      </video>
-      <div class="header-overlay"></div>
-    </div>
-
-    <div class="mobile-screen-background">
-    </div>
-
     <main class="v-header container">
-      
-      
+      <picture class="fullscreen-video-wrap">
+        <video autoplay loop muted>
+          <source src="5456042-preview.mp4" type="video/mp4">
+        </video>
+        <object class="header-overlay"></object>
+      </picture>
+
+      <picture class="mobile-screen-background">
+      </picture>
+
       <header class="header-content" aria-live="polite">
         <h1>Will it Spin?</h1>
         <h3>Welcome! This app displays your  most recently played tracks on Spotify, and lets you check if these artists' albums are for sale as vinyl LP's.</h3>
         <h3>First, please log in to your Spotify account.</h3>
         <h4>By logging in, you agree to let Spotify share your most recently played music with this app.</h4> 
       
-        <div class="button-container">
+        <nav class="button-container">
           <button id="login-button" type="submit">Login with Spotify</button>
           <p>Don't have a Spotify account? Register <a href="https://www.spotify.com/signup/">here</a>.</p>
-        </div>
+        </nav>
       </header>  
 
       <header class="results-header" aria-live="polite">
@@ -43,12 +41,7 @@
       </header>
       <article class="js-spotify-results" aria-live="assertive"></article>
 
-      
-
     </main>
-
-    
-  
   <script type="text/javascript" src="index.js"></script>
   </body>
 </html> 
